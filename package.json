@@ -2,7 +2,6 @@
     "name": "@openiap/dotnetapi",
     "version": "0.0.7",
     "description": "",
-    "main": "index.js",
     "scripts": {
         "updateproto": "npm uninstall @openiap/proto && npm --save-dev i openiap/proto",
         "generate": "mkdir -p src/proto && protoc -I=./proto -I./proto --grpc_opt=lite_client,no_server --csharp_out=./src/proto proto/base.proto proto/ace.proto proto/querys.proto proto/queues.proto proto/watch.proto proto/workitems.proto",

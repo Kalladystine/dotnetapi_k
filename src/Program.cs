@@ -197,28 +197,6 @@ async Task ConsoleHandler() {
     } while (true);
 
 }
-async Task<openiap> QuickConnect() {
-    var apiurl = Environment.GetEnvironmentVariable("apiurl");
-    if(apiurl == null || apiurl == "") apiurl = Environment.GetEnvironmentVariable("grpcapiurl");
-    if(apiurl == null || apiurl == "") throw new ArgumentException("apiurl not set");
-    TaskCompletionSource<openiap> tcs = new TaskCompletionSource<openiap>();
-
-    openiap client = new openiap(apiurl);
-    client.OnConnected = () =>
-    {
-        Console.WriteLine("connected!");
-        return Task.CompletedTask;
-    };
-    client.OnSignedin = (user) =>
-    {
-        tcs.SetResult(client);
-        return Task.CompletedTask;
-    };
-    await protowrap.Connect(client);
-    await tcs.Task;
-    return client;
-}
-
 async Task AgentHandler() {
     var gitrepo = Environment.GetEnvironmentVariable("gitrepo");
     var packageid = Environment.GetEnvironmentVariable("packageid");
@@ -232,9 +210,9 @@ async Task AgentHandler() {
             gitclone.WaitForExit();
         }
     } else if(!string.IsNullOrEmpty(packageid)) {
-        var client = await QuickConnect();
+        var client = await openiap.QuickConnect();
         var packages = await client.Query<dynamic>("agents", query:new {_type="package", _id=packageid});
-        dynamic p = null; string fileid = "";
+        dynamic? p = null; string fileid = "";
         foreach(dynamic res in packages) {
             p = res;
             fileid = res["fileid"];

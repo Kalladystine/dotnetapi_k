@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
 
     <PackageId>openiap.dotnetapi</PackageId>
-    <Version>0.0.7</Version>
+    <Version>0.0.9</Version>
     <Authors>Allan Zimmermann</Authors>
     <Company>OpenIAP ApS</Company>
   </PropertyGroup>
